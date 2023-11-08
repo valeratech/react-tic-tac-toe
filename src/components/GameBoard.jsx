@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 const defaultGameBoard = [
     [null, null, null],
     [null, null, null],
@@ -6,14 +8,25 @@ const defaultGameBoard = [
 
 function GameBoard() {
 
+    const [gameBoard, setGameBoard] = useState(defaultGameBoard);
+
+    function addSymbolClickHandler(rowIndex, columnIndex) {
+        setGameBoard(prev => {
+            // Since there is a nested array you must spread the nested array via the map function
+            const newGameBoard = [...prev.map(innerArray => [...innerArray])]
+            newGameBoard[rowIndex][columnIndex] = 'X';
+            return newGameBoard;
+        });
+    }
+
     return (
         <ol id="game-board">
-            {defaultGameBoard.map((row, rowIndex) => (
-                <li key={rowIndex+2}>
+            {gameBoard.map((row, rowIndex) => (
+                <li key={rowIndex}>
                     <ol>
                         {row.map((playerSymbol, colIndex) => (
-                            <li key={colIndex+1}>
-                                <button >{playerSymbol}</button>
+                            <li key={colIndex}>
+                                <button onClick={() => addSymbolClickHandler(rowIndex, colIndex)} >{playerSymbol}</button>
                             </li>
                         ))}
                     </ol>
