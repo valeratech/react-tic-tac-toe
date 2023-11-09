@@ -6,17 +6,19 @@ const defaultGameBoard = [
     [null, null, null],
 ];
 
-function GameBoard() {
+function GameBoard({ onActivePlayer, activeSymbol }) {
 
     const [gameBoard, setGameBoard] = useState(defaultGameBoard);
 
-    function addSymbolClickHandler(rowIndex, columnIndex) {
+    function addSymbolClickHandler(e, rowIndex, columnIndex) {
+        e.target.disabled = true;
         setGameBoard(prev => {
             // Since there is a nested array you must spread the nested array via the map function
             const newGameBoard = [...prev.map(innerArray => [...innerArray])]
-            newGameBoard[rowIndex][columnIndex] = 'X';
+            newGameBoard[rowIndex][columnIndex] = activeSymbol;
             return newGameBoard;
         });
+        onActivePlayer();
     }
 
     return (
@@ -26,7 +28,7 @@ function GameBoard() {
                     <ol>
                         {row.map((playerSymbol, colIndex) => (
                             <li key={colIndex}>
-                                <button onClick={() => addSymbolClickHandler(rowIndex, colIndex)} >{playerSymbol}</button>
+                                <button onClick={(e) => addSymbolClickHandler(e, rowIndex, colIndex)} >{playerSymbol}</button>
                             </li>
                         ))}
                     </ol>
