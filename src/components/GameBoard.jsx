@@ -35,7 +35,7 @@ function GameBoard({ onActivePlayer, activeSymbol, turns }) {
                     <ol>
                         {row.map((playerSymbol, colIndex) => (
                             <li key={colIndex}>
-                                <button onClick={() => onActivePlayer(rowIndex, colIndex)} >{playerSymbol}</button>
+                                <button onClick={() => onActivePlayer(rowIndex, colIndex)} disabled={playerSymbol=== 'X' || playerSymbol === 'O'}>{playerSymbol}</button>
                             </li>
                         ))}
                     </ol>
